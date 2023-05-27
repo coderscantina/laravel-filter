@@ -1,0 +1,48 @@
+{
+	"name": "coderscantina/laravel-filter",
+	"type": "library",
+	"description": "A filter object for Laravel/Eloquent models based on laracasts approach.",
+	"keywords": [
+		"filter",
+		"laravel"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Michael Wallner",
+			"email": "m.wallner@badsoft.net"
+		}
+	],
+	"require": {
+		"php": "~7.2|^8.0",
+		"illuminate/database": "^7.0||^8.0||^9.0||^10.0",
+		"illuminate/http": "^7.0||^8.0||^9.0||^10.0",
+		"illuminate/support": "^7.0||^8.0||^9.0||^10.0"
+	},
+	"require-dev": {
+		"graham-campbell/testbench": "^5.4",
+		"mockery/mockery": "^1.3",
+		"phpunit/phpunit": "^9.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"CodersCantina\\Filter\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"CodersCantina\\Filter\\": "tests"
+		}
+	},
+	"scripts": {
+		"test": "phpunit"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0-dev"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
+}
