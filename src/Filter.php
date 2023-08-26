@@ -20,7 +20,7 @@ class Filter
 
     public static function fromRequest(Request $request)
     {
-        return new self($request->all());
+        return new static($request->all());
     }
 
     public function apply(Builder|\Illuminate\Database\Query\Builder|Relation $builder
