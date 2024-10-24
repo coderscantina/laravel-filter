@@ -40,7 +40,7 @@ class Filter
         return $this->builder;
     }
 
-    protected function getValidMethodParams(string $methodName)
+    protected function getValidMethodParams(string $methodName): ?int
     {
         if (method_exists($this, $methodName)) {
             $reflection = new ReflectionMethod($this, $methodName);

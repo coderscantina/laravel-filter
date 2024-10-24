@@ -2,7 +2,9 @@
 
 namespace CodersCantina\Filter;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait Sortable
 {
@@ -88,6 +90,14 @@ trait Sortable
         return $path[0] . '.' . $column;
     }
 
+    /**
+     * Prepare column, add orderBy clause to query and return regarding column
+     * @param array $path
+     * @param Builder|Relation $query
+     * @param string $column
+     * @param string $sortItem
+     * @return string
+     */
     protected function applyToQuery(array $path, $query, string $column, string $sortItem): string
     {
         $column = $this->prepareColumn($path, $query, $column);
@@ -95,5 +105,10 @@ trait Sortable
         $query->orderBy($column, $direction);
 
         return $column;
+    }
+
+    protected function applyOrderBy(Builder|Relation $query, string $column, string $direction): void
+    {
+        $query->orderBy($column, $direction);
     }
 }
