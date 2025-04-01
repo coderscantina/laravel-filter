@@ -92,6 +92,171 @@ class LessonsController extends Controller
     }
 }
 ```
+## Advanced Operators
+
+The package supports advanced filtering with operator-based syntax for more expressive queries. This feature allows you to easily implement complex filtering logic with minimal code.
+
+### Supported Operators
+
+The following operators are supported:
+
+| Operator | SQL Equivalent | Description |
+|----------|---------------|-------------|
+| `null` | `IS NULL` | Matches null values |
+| `!null` | `IS NOT NULL` | Matches non-null values |
+| `eq` | `=` | Equals (default if no operator specified) |
+| `neq` | `!=` | Not equals |
+| `empty` | Custom | Matches empty strings or null values |
+| `!empty` | Custom | Matches non-empty and non-null values |
+| `like` | `LIKE` | Contains (adds wildcards around value) |
+| `!like` | `NOT LIKE` | Does not contain (with wildcards) |
+| `^like` | `LIKE` | Starts with (adds wildcard after) |
+| `like$` | `LIKE` | Ends with (adds wildcard before) |
+| `lt` | `<` | Less than |
+| `gt` | `>` | Greater than |
+| `lte` | `<=` | Less than or equal to |
+| `gte` | `>=` | Greater than or equal to |
+| `in` | `IN` | In a list of values (comma-separated) |
+| `!in` | `NOT IN` | Not in a list of values (comma-separated) |
+
+### Basic Usage
+
+To use advanced operators, extend from the `AdvancedFilter` class instead of `ExtendedFilter`:
+
+```php
+<?php namespace App;
+ 
+use CodersCantina\Filter\AdvancedFilter;
+ 
+class ProductFilter extends AdvancedFilter
+{
+    public function name($value)
+    {
+        // Automatically handles operator syntax
+        $this->applyDynamicFilter('name', $value);
+    }
+    
+    public function price($value)
+    {
+        // Supports both operators and range syntax
+        $this->applyAdvancedRangeFilter('price', $value);
+    }
+    
+    public function created_at($value)
+    {
+        // Supports both operators and date range syntax
+        $this->applyAdvancedDateFilter('created_at', $value);
+    }
+}
+```
+
+### Request Examples
+
+```php
+// Find products with names containing "phone"
+$filter = new ProductFilter(['name' => 'like:phone']);
+
+// Find products with price greater than or equal to 100
+$filter = new ProductFilter(['price' => 'gte:100']);
+
+// Find products created after January 1, 2023
+$filter = new ProductFilter(['created_at' => 'gte:2023-01-01']);
+
+// Find products in specific categories
+$filter = new ProductFilter(['category' => 'in:electronics,phones,accessories']);
+
+// Find products that are either active or featured
+$filter = new ProductFilter(['status' => ['eq:active', 'eq:featured']]);
+
+// Find non-empty descriptions
+$filter = new ProductFilter(['description' => '!empty:']);
+```
+
+### Advanced Use Cases
+
+#### Using with Range Filters
+
+The advanced filtering still supports the range filter syntax (`...`) while adding operator capabilities:
+
+```php
+// Traditional range syntax still works
+$filter = new ProductFilter(['price' => '100...500']);
+
+// Using operators for precise comparisons
+$filter = new ProductFilter(['price' => 'gte:100']);
+```
+
+#### Using with Date Filters
+
+Similarly, date filters can use both traditional range and operator syntax:
+
+```php
+// Traditional date range
+$filter = new ProductFilter(['created_at' => '2023-01-01...2023-12-31']);
+
+// Using operators
+$filter = new ProductFilter(['created_at' => 'gte:2023-01-01']);
+```
+
+#### Arrays of Values with Operators
+
+You can combine multiple operator conditions for the same field:
+
+```php
+// Products that are either active or pending
+$filter = new ProductFilter([
+    'status' => ['eq:active', 'eq:pending']
+]);
+```
+
+#### Custom Operators
+
+You can extend the supported operators by adding your own:
+
+```php
+$filter = new ProductFilter(['price' => 'between:10,50']);
+$filter->setCustomOperators(['between' => 'BETWEEN']);
+```
+
+### Implementation Details
+
+If you're integrating the advanced filter functionality into an existing filter:
+
+1. Use the `AdvancedFilterable` trait in your filter class
+2. Extend from `AdvancedFilter` or add the trait to your custom filter class
+3. Update your filter methods to use `applyDynamicFilter()`, `applyAdvancedRangeFilter()`, or `applyAdvancedDateFilter()`
+
+```php
+<?php namespace App;
+ 
+use CodersCantina\Filter\ExtendedFilter;
+use CodersCantina\Filter\AdvancedFilterable;
+ 
+class CustomFilter extends ExtendedFilter
+{
+    use AdvancedFilterable;
+    
+    public function status($value)
+    {
+        $this->applyDynamicFilter('status', $value);
+    }
+}
+```
+
+### Security Considerations
+
+The `AdvancedFilter` class maintains all the security features of the base `Filter` class:
+
+- Column name validation to prevent SQL injection
+- Input sanitization for filter values
+- Support for filter whitelisting
+- Proper handling of null and empty values
+
+Always use filter whitelisting in production to control which filters can be applied from user input:
+
+```php
+$filter->setWhitelistedFilters(['name', 'price', 'category', 'status']);
+```
 
 ## Security Features
 
