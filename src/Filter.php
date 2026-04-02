@@ -147,4 +147,3 @@ class Filter
         return $this;
     }
 }
-

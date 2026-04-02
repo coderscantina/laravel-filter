@@ -6,7 +6,7 @@ use Illuminate\Database\Query\Builder;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class AdvancedFilterTest extends TestCase
+class AdvancedFilterableTest extends TestCase
 {
     /** @test */
     public function it_handles_advanced_operators()

@@ -100,11 +100,10 @@ trait AdvancedFilterable
     protected function applyOperator(
         string    $column,
         string    $operator,
-                  $value,
+        $value,
         ?callable $valueTransformer = null,
-                  $query = null
-    ): void
-    {
+        $query = null
+    ): void {
         $query = $query ?? $this->builder;
         $sqlOperator = $this->supportedOperators[$operator] ?? '=';
 
