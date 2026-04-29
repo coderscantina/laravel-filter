@@ -1,5 +1,7 @@
 # Filter Package from Coders' Cantina
 
+[![Laravel Compatibility](https://badge.laravel.cloud/badge/coderscantina/laravel-filter)](https://packagist.org/packages/coderscantina/laravel-filter)
+
 A secure and optimized filter object for Laravel/Eloquent models based on the laracasts approach.
 
 ## Features
