@@ -244,6 +244,24 @@ class AdvancedFilterableTest extends TestCase
     }
 
     #[Test]
+    public function it_ends_a_day_for_lte_and_gt_date_filters()
+    {
+        foreach (['lte' => '<=', 'gt' => '>'] as $operator => $sql) {
+            $filter = new TestAdvancedFilter(['created_at' => "{$operator}:2023-01-01"]);
+            $builder = Mockery::mock(Builder::class);
+
+            $builder->shouldReceive('where')
+                ->withArgs(['created_at', $sql, '2023-01-01 23:59:59'])
+                ->once()
+                ->andReturnSelf();
+
+            $filter->apply($builder);
+        }
+
+        $this->assertTrue(true);
+    }
+
+    #[Test]
     public function it_preserves_original_range_filter_functionality()
     {
         $filter = new TestAdvancedFilter(['price' => '10...50']);

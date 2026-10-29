@@ -78,7 +78,13 @@ class AdvancedFilter extends ExtendedFilter
     {
         // Check if we have an advanced filter
         if (is_string($value) && strpos($value, ':') !== false) {
-            $this->applyAdvancedFilter($column, $value, [$this, 'formatDate']);
+            // A bare day means its first second for gte, eq and lt, and its
+            // last second for lte and gt, so each operator includes or
+            // excludes the whole day.
+            [$operator] = $this->parseOperatorAndValue($value);
+            $isStart = !in_array($operator, ['lte', 'gt'], true);
+
+            $this->applyAdvancedFilter($column, $value, fn ($date) => $this->formatDate($date, $isStart));
             return;
         }
 
