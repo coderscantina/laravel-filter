@@ -2,6 +2,7 @@
 
 namespace CodersCantina\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class EloquentTest extends AbstractPackageTestCase
         Mockery::mock(Builder::class);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersAColumn()
     {
         $filter = new FooModelFilter(['foo' => 'bar']);
@@ -29,7 +30,7 @@ class EloquentTest extends AbstractPackageTestCase
         $this->assertEquals(['bar'], $query->getBindings());
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersSomeColumn()
     {
         $filter = new FooModelFilter(['foo' => 'bar', 'baz' => 'quz']);
@@ -40,7 +41,7 @@ class EloquentTest extends AbstractPackageTestCase
         $this->assertEquals(['bar', 'quz'], $query->getBindings());
     }
 
-    /** @test */
+    #[Test]
     public function itSortsSomeColumns()
     {
         $filter = new FooModelFilter(['sort' => '+foo,-bar,baz']);
@@ -53,7 +54,7 @@ class EloquentTest extends AbstractPackageTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function itSortsARelation()
     {
         $filter = new FooModelFilter(['sort' => '+bar.baz']);
@@ -73,7 +74,7 @@ class EloquentTest extends AbstractPackageTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function itReturnsSortColumns()
     {
         $filter = new FooModelFilter(['sort' => '+bar.baz']);
@@ -82,7 +83,7 @@ class EloquentTest extends AbstractPackageTestCase
         $this->assertEquals(['bar_models.baz'], $filter->getSortColumns());
     }
 
-    /** @test */
+    #[Test]
     public function itReturnsSortColumnsForNonExistingRelations()
     {
         $filter = new FooModelFilter(['sort' => '+quz.baz']);
@@ -91,7 +92,7 @@ class EloquentTest extends AbstractPackageTestCase
         $this->assertEquals(['quz.baz'], $filter->getSortColumns());
     }
 
-    /** @test */
+    #[Test]
     public function ifFiltersARange()
     {
         $filter = new FooModelFilter(['bar' => 'a...b']);
@@ -101,7 +102,7 @@ class EloquentTest extends AbstractPackageTestCase
         $this->assertEquals(['a', 'b'], $query->getBindings());
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersADateRange()
     {
         $filter = new FooModelFilter(['quz' => '2017-01-01 12:34:56...2017-12-31']);

@@ -2,13 +2,14 @@
 
 namespace CodersCantina\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Query\Builder;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 class AdvancedFilterableTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_handles_advanced_operators()
     {
         $filter = new TestAdvancedFilter(['name' => 'eq:John']);
@@ -23,7 +24,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_null_operator()
     {
         $filter = new TestAdvancedFilter(['name' => 'null:']);
@@ -38,7 +39,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_not_null_operator()
     {
         $filter = new TestAdvancedFilter(['name' => '!null:']);
@@ -53,7 +54,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_empty_operator()
     {
         $filter = new TestAdvancedFilter(['name' => 'empty:']);
@@ -82,7 +83,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_not_empty_operator()
     {
         $filter = new TestAdvancedFilter(['name' => '!empty:']);
@@ -111,7 +112,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_like_operators()
     {
         $filter = new TestAdvancedFilter(['name' => 'like:John']);
@@ -126,7 +127,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_starts_with_like_operator()
     {
         $filter = new TestAdvancedFilter(['name' => '^like:John']);
@@ -141,7 +142,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_ends_with_like_operator()
     {
         $filter = new TestAdvancedFilter(['name' => 'like$:John']);
@@ -156,7 +157,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_in_operator()
     {
         $filter = new TestAdvancedFilter(['status' => 'in:active,pending,draft']);
@@ -171,7 +172,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_not_in_operator()
     {
         $filter = new TestAdvancedFilter(['status' => '!in:closed,archived']);
@@ -186,7 +187,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_comparison_operators()
     {
         $operators = [
@@ -212,7 +213,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_falls_back_to_equals_for_unknown_operators()
     {
         $filter = new TestAdvancedFilter(['name' => 'unknown:John']);
@@ -227,7 +228,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_advanced_date_filters()
     {
         $filter = new TestAdvancedFilter(['created_at' => 'gte:2023-01-01']);
@@ -242,7 +243,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_preserves_original_range_filter_functionality()
     {
         $filter = new TestAdvancedFilter(['price' => '10...50']);
@@ -262,7 +263,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_preserves_original_date_range_filter_functionality()
     {
         $filter = new TestAdvancedFilter(['created_at' => '2023-01-01...2023-12-31']);
@@ -282,7 +283,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_multiple_advanced_filters()
     {
         $filter = new TestAdvancedFilter([
@@ -312,7 +313,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_array_of_advanced_filters()
     {
         $filter = new TestAdvancedFilter(['status' => ['eq:active', 'eq:pending']]);
@@ -341,7 +342,7 @@ class AdvancedFilterableTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_customize_operators()
     {
         $filter = new TestAdvancedFilter(['age' => 'between:18,30']);

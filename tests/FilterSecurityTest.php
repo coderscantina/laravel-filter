@@ -2,6 +2,7 @@
 
 namespace CodersCantina\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -12,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class FilterSecurityTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_sanitizes_input_data()
     {
         $filter = new TestFilter([
@@ -38,7 +39,7 @@ class FilterSecurityTest extends TestCase
         $this->assertArrayNotHasKey('invalid;', $filters['nested']);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_column_names()
     {
         $filter = new TestFilter([]);
@@ -54,7 +55,7 @@ class FilterSecurityTest extends TestCase
         $this->assertFalse($filter->testIsValidColumnName("column' OR '1'='1"));
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_date_formats()
     {
         $filter = new TestFilter([]);
@@ -70,7 +71,7 @@ class FilterSecurityTest extends TestCase
         $this->assertFalse($filter->testIsValidDateFormat('<script>alert("xss")</script>'));
     }
 
-    /** @test */
+    #[Test]
     public function it_rejects_invalid_column_names_in_range_filter()
     {
         $filter = new TestFilter(['sql_injection' => 'value']);
@@ -84,7 +85,7 @@ class FilterSecurityTest extends TestCase
         $this->assertTrue(true); // No exception thrown
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_invalid_date_format_gracefully()
     {
         $filter = new TestFilter(['date_filter' => 'invalid_date']);
@@ -95,7 +96,7 @@ class FilterSecurityTest extends TestCase
         $filter->testFormatDate('invalid-date-format', true);
     }
 
-    /** @test */
+    #[Test]
     public function it_rejects_malicious_sort_strings()
     {
         $filter = new SortableTestFilter(['sort' => '+valid_column,-another_column,malicious;DROP TABLE users;']);
@@ -129,7 +130,7 @@ class FilterSecurityTest extends TestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_creates_filter_from_request()
     {
         $requestMock = Mockery::mock(Request::class);
@@ -148,7 +149,7 @@ class FilterSecurityTest extends TestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function it_validates_limit_input()
     {
         $filter = new TestFilter(['limit' => '10']);
@@ -170,7 +171,7 @@ class FilterSecurityTest extends TestCase
         $filter->apply($builder);
     }
 
-    /** @test */
+    #[Test]
     public function it_validates_offset_input()
     {
         $filter = new TestFilter(['offset' => '10']);
@@ -192,7 +193,7 @@ class FilterSecurityTest extends TestCase
         $filter->apply($builder);
     }
 
-    /** @test */
+    #[Test]
     public function it_safely_handles_array_conversion()
     {
         $filter = new TestFilter([]);
@@ -214,7 +215,7 @@ class FilterSecurityTest extends TestCase
         $this->assertEquals([], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_limits_maximum_sort_columns()
     {
         $filter = new SortableTestFilter(['sort' => 'col1,col2,col3,col4,col5,col6,col7,col8']);
@@ -253,7 +254,7 @@ class FilterSecurityTest extends TestCase
         $this->assertCount(3, $filter->getSortColumns());
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_join_caching_for_relations()
     {
         $filter = new RelationTestFilter(['sort' => 'related.column']);
@@ -301,7 +302,7 @@ class FilterSecurityTest extends TestCase
         $filter->sort('related.column'); // Second application should use cached join
     }
 
-    /** @test */
+    #[Test]
     public function it_sanitizes_request_data()
     {
         $requestMock = Mockery::mock(Request::class);
@@ -317,7 +318,7 @@ class FilterSecurityTest extends TestCase
         $this->assertArrayNotHasKey('malicious; DROP TABLE users;', $filters);
     }
 
-    /** @test */
+    #[Test]
     public function it_respects_whitelisted_filters()
     {
         $filter = new TestFilter([
@@ -347,7 +348,7 @@ class FilterSecurityTest extends TestCase
         $filter->apply($builder);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_invalid_relation_gracefully()
     {
         $filter = new SortableTestFilter(['sort' => 'invalid_relation.column']);
@@ -373,7 +374,7 @@ class FilterSecurityTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_invalid_path_segments_gracefully()
     {
         $filter = new SortableTestFilter(['sort' => '+invalid;DROP TABLE;.column']);
@@ -392,7 +393,7 @@ class FilterSecurityTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_formats_date_with_fallback_on_exception()
     {
         $filter = new class([]) extends TestFilter {

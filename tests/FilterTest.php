@@ -2,6 +2,7 @@
 
 namespace CodersCantina\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Eloquent\Builder;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -9,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class FilterTest extends TestCase
 {
 
-    /** @test */
+    #[Test]
     public function itFiltersOneArgument()
     {
         $filter = new FooFilter(['foo' => 'bar']);
@@ -20,7 +21,7 @@ class FilterTest extends TestCase
         $this->assertEquals($builder, $filter->apply($builder));
     }
 
-    /** @test */
+    #[Test]
     public function itIgnoresNonPresentFilters()
     {
         $filter = new FooFilter(['foo' => 'bar', 'baz' => 'qux']);
@@ -32,7 +33,7 @@ class FilterTest extends TestCase
         $this->assertEquals($builder, $filter->apply($builder));
     }
 
-    /** @test */
+    #[Test]
     public function itIgnoresNonPublicMethods()
     {
         $filter = new FooFilter(['foo' => 'bar', 'zfoo' => 'qux']);
@@ -44,7 +45,7 @@ class FilterTest extends TestCase
         $this->assertEquals($builder, $filter->apply($builder));
     }
 
-    /** @test */
+    #[Test]
     public function itCallsWithAnNulledValue()
     {
         $filter = new FooFilter(['foo' => null]);
@@ -55,7 +56,7 @@ class FilterTest extends TestCase
         $this->assertEquals($builder, $filter->apply($builder));
     }
 
-    /** @test */
+    #[Test]
     public function itAllowsFilterWithoutParam()
     {
         $filter = new FooFilter(['active' => null, 'inactive' => null, 'default' => null]);
