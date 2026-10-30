@@ -2,12 +2,13 @@
 
 namespace CodersCantina\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Query\Builder;
 use Mockery;
 
 class ExtendedFilterTest extends MockeryTestCase
 {
-    /** @test */
+    #[Test]
     public function itSortsAscendingPerDefault()
     {
         $filter = new BarFilter(['sort' => 'foo']);
@@ -22,7 +23,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itIgnoresAnEmptySearch()
     {
         $filter = new BarFilter(['sort' => null]);
@@ -37,7 +38,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itSortsDescending()
     {
         $filter = new BarFilter(['sort' => '-foo']);
@@ -52,7 +53,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itSortsAscending()
     {
         $filter = new BarFilter(['sort' => '+foo']);
@@ -67,7 +68,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itSortsMultipleColumns()
     {
         $filter = new BarFilter(['sort' => '+foo,-bar,+baz']);
@@ -85,7 +86,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itWhitelistsTheSort()
     {
         $filter = new BarSortFilter(['sort' => '+foo,-bar,+baz']);
@@ -103,7 +104,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersARange()
     {
         $filter = new BarFilter(['foo' => 'bar...baz']);
@@ -116,7 +117,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersABeginningRange()
     {
         $filter = new BarFilter(['foo' => 'bar...']);
@@ -128,7 +129,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersAnEndingRange()
     {
         $filter = new BarFilter(['foo' => '...bar']);
@@ -140,7 +141,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersADateRange()
     {
         $filter = new BarFilter(['bar' => '2017-01-01...2017-12-31']);
@@ -153,7 +154,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFiltersADatetimeRange()
     {
         $filter = new BarFilter(['bar' => '2017-01-01 01:02:03...2017-12-31 04:05:06']);
@@ -166,7 +167,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itFilterARangeWithACustomTransformer()
     {
         $filter = new BarFilter(['baz' => 'abc...def']);
@@ -179,7 +180,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itAppliesALimit()
     {
         $filter = new BarFilter(['limit' => '10']);
@@ -191,7 +192,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itAppliesAnOffset()
     {
         $filter = new BarFilter(['offset' => '10']);
@@ -203,7 +204,7 @@ class ExtendedFilterTest extends MockeryTestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function itEnsuresAnArray()
     {
         $filter = new BarFilter([]);
